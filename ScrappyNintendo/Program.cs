@@ -9,42 +9,31 @@ namespace ScrappyNintendo
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Scrappy Nintendo - Developed by Sebastian Marquez");
             List<string> MisTitulos = new List<string>();
             HtmlWeb obWeb = new HtmlWeb();
-            HtmlDocument obDoc = obWeb.Load("https://www.solotodo.cl/consoles?families=580852");
-            
-
-            //HtmlNode Body = obDoc.DocumentNode.CssSelect("body").First();
-            //string sBody = Body.InnerHtml;
-
-
-            //Console.WriteLine("Hello World!");
-            foreach (var Nodo in obDoc.DocumentNode.CssSelect(".category-browse-result"))
-            {
-                var NodoA = Nodo.CssSelect("a").First();
-                MisTitulos.Add(NodoA.InnerHtml);
-
-                Console.WriteLine($"{Nodo.InnerText}");
-            }
             try
             {
-                Console.WriteLine("Segunda Pagina");
-                List<string> MisTitulos2 = new List<string>();
-                HtmlWeb obWeb2 = new HtmlWeb();
-                HtmlDocument obDocPage2 = obWeb2.Load("https://www.solotodo.cl/consoles?families=580852&ordering=offer_price_usd&page=2&");
-                foreach (var Nodo2 in obDocPage2.DocumentNode.CssSelect(".category-browse-result"))
+                for (int i = 0; i < 5; i++)
                 {
-                    var NodoA = Nodo2.CssSelect("a").First();
-                    MisTitulos2.Add(NodoA.InnerText);
-                    Console.WriteLine($"{Nodo2.InnerText}");
+                    HtmlDocument obDoc = obWeb.Load($"https://www.solotodo.cl/consoles?families=580852&page= {i}");
+                    foreach (var Nodo in obDoc.DocumentNode.CssSelect(".category-browse-result"))
+                    {
+                        var NodoA = Nodo.CssSelect("a").First();
+                        MisTitulos.Add(NodoA.InnerHtml);
 
+                        Console.WriteLine($"{Nodo.InnerText}");
+                    }
 
                 }
-            }catch (Exception ex)
+                Console.WriteLine("Se ha finalizado el scrappy, presiona una tecla para cerrar");
+                Console.ReadKey();
+            }
+            catch (Exception ex)
             {
                 Console.Write(ex);
             }
-            Console.Read();
+            
             
         }
 
